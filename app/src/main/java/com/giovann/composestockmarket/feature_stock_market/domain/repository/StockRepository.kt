@@ -8,7 +8,7 @@ import retrofit2.http.Query
 
 interface StockRepository {
 
-    suspend fun getListings(
+    suspend fun getCompanyListings(
         fetchFromRemote: Boolean,
         query: String
     ): Flow<Resource<List<CompanyListing>>>
