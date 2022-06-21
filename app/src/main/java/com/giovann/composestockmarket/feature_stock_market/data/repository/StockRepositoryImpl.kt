@@ -2,6 +2,7 @@ package com.giovann.composestockmarket.feature_stock_market.data.repository
 
 import com.giovann.composestockmarket.feature_stock_market.data.csv.CSVParser
 import com.giovann.composestockmarket.feature_stock_market.data.local.StockDAO
+import com.giovann.composestockmarket.feature_stock_market.data.local.StockDatabase
 import com.giovann.composestockmarket.feature_stock_market.data.mapper.toCompanyListing
 import com.giovann.composestockmarket.feature_stock_market.data.mapper.toCompanyListingEntity
 import com.giovann.composestockmarket.feature_stock_market.data.remote.StockAPI
@@ -11,12 +12,15 @@ import com.giovann.composestockmarket.feature_stock_market.util.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
+import javax.inject.Singleton
 
-class StockRepositoryImpl(
-    val API: StockAPI,
-    val DAO: StockDAO,
-    val companyListingsParser: CSVParser<CompanyListing>
+@Singleton
+class StockRepositoryImpl @Inject constructor (
+    private val API: StockAPI,
+    private val DB: StockDatabase,
+    private val companyListingsParser: CSVParser<CompanyListing>
 ) : StockRepository {
+    private val DAO: StockDAO = DB.DAO
 
     override suspend fun getCompanyListings(
         fetchFromRemote: Boolean,

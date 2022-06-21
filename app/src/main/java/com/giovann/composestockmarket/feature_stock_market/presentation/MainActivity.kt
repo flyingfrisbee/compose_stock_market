@@ -1,4 +1,4 @@
-package com.giovann.composestockmarket
+package com.giovann.composestockmarket.feature_stock_market.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -8,8 +8,12 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import com.giovann.composestockmarket.feature_stock_market.presentation.company_listings.NavGraphs
 import com.giovann.composestockmarket.ui.theme.ComposeStockMarketTheme
+import com.ramcosta.composedestinations.DestinationsNavHost
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,7 +21,7 @@ class MainActivity : ComponentActivity() {
             ComposeStockMarketTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
-                    Greeting("Android")
+                    DestinationsNavHost(navGraph = NavGraphs.root)
                 }
             }
         }
