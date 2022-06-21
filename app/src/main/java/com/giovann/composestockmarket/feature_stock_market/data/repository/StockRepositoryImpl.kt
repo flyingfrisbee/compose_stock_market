@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class StockRepositoryImpl @Inject constructor(
+class StockRepositoryImpl(
     val API: StockAPI,
     val DAO: StockDAO,
     val companyListingsParser: CSVParser<CompanyListing>
