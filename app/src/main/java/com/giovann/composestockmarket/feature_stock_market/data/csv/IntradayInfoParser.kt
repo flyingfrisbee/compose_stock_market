@@ -1,16 +1,19 @@
 package com.giovann.composestockmarket.feature_stock_market.data.csv
 
 import android.annotation.SuppressLint
+import android.util.Log
 import com.giovann.composestockmarket.feature_stock_market.data.mapper.toIntradayInfo
 import com.giovann.composestockmarket.feature_stock_market.data.remote.dto.IntradayInfoDto
-import com.giovann.composestockmarket.feature_stock_market.domain.model.CompanyListing
 import com.giovann.composestockmarket.feature_stock_market.domain.model.IntradayInfo
 import com.opencsv.CSVReader
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.InputStream
 import java.io.InputStreamReader
-import java.time.LocalDateTime
+import java.time.LocalDate
+import java.util.*
+import java.util.Calendar.MONDAY
+import java.util.Calendar.SUNDAY
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -19,6 +22,11 @@ class IntradayInfoParser @Inject constructor(
 ) : CSVParser<IntradayInfo> {
 
     override suspend fun parse(stream: InputStream): List<IntradayInfo> {
+        val daysToSubstract = when (LocalDate.now().dayOfWeek.name) {
+            "SUNDAY" -> 2L
+            "MONDAY" -> 3L
+            else -> 1L
+        }
         val csvReader = CSVReader(InputStreamReader(stream))
         return withContext(Dispatchers.IO) {
             csvReader
@@ -34,7 +42,7 @@ class IntradayInfoParser @Inject constructor(
                     dto.toIntradayInfo()
                 }
                 .filter {
-                    it.date.dayOfMonth == LocalDateTime.now().minusDays(1).dayOfMonth
+                    it.date.dayOfMonth == LocalDate.now().minusDays(daysToSubstract).dayOfMonth
                 }
                 .sortedBy {
                     it.date.hour

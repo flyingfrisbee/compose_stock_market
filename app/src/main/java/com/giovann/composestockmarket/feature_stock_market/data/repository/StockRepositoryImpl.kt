@@ -1,5 +1,6 @@
 package com.giovann.composestockmarket.feature_stock_market.data.repository
 
+import android.util.Log
 import com.giovann.composestockmarket.feature_stock_market.data.csv.CSVParser
 import com.giovann.composestockmarket.feature_stock_market.data.csv.IntradayInfoParser
 import com.giovann.composestockmarket.feature_stock_market.data.local.StockDAO
